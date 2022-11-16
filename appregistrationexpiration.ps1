@@ -1,4 +1,4 @@
-﻿# The following function builds the signature used to authorization header that sends a request to the Azure Monitor HTTP Data Collector API
+# The following function builds the signature used to authorization header that sends a request to the Azure Monitor HTTP Data Collector API
 Function Build-Signature ($customerId, $sharedKey, $date, $contentLength, $method, $contentType, $resource)
 {
     $xHeaders = "x-ms-date:" + $date
@@ -48,14 +48,14 @@ Function Post-LogAnalyticsData($customerId, $sharedKey, $body, $logType)
 # Connect to Azure with App Registration Service Principal Secret
 
 # Retrieve the App Registration credential (App ID and secret)
-$spCredential = Get-AutomationPSCredential -Name 'AppRegistrationMonitor'
+#$spCredential = Get-AutomationPSCredential -Name 'AppRegistrationMonitor'
 
 # Retrieve the Azure AD tenant ID
 $tenantID = Get-AutomationVariable -Name 'MonitoredTenantID'
 
-# Authenticate with the credentials object
+# Authenticate with the credentials object -Identity
 Try {
-  Connect-AzAccount -ServicePrincipal -Credential $spCredential -Tenant $tenantId
+  Connect-AzAccount -Identity -Tenant $tenantId
 } catch {
   write-error "$($_.Exception)"
   throw "$($_.Exception)"
